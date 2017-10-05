@@ -134,19 +134,30 @@ def say():
    	}]
 
    rule =''
+
    if request.method == 'POST':
       g_code = request.form['g_code']
       g_say = request.form['g_say']
+      count = 0
+      n_count = 0
       for w_dict in diction:
          if w_dict['kode'] == g_code:
+
             for k_dict in w_dict['subject']:
-               rule = '(\w+) '+k_dict['kata']
-               print rule
+               rule = r''+k_dict['kata']
+               found = re.search(rule,g_say)
+               if found:
+                  count += 1
+               else:
+                  n_count += 1
          else:
             pass
    else:
       pass
       # return redirect(url_for(''))
+
+   print count
+   print n_count
    return render_template('say.html')
 
 if __name__ == '__main__':
